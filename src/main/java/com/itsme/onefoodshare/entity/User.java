@@ -1,6 +1,8 @@
 package com.itsme.onefoodshare.entity;
 
 import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
