@@ -1,11 +1,11 @@
 package com.itsme.onefoodshare.entity;
 
+import com.itsme.onefoodshare.dto.requestDto.UserDto;
 import lombok.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
 
 @Entity
 @Getter
@@ -28,14 +28,19 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column
     private String location;
 
-    public <E> User(String username, String password, ArrayList<E> es) {
+
+    public User(UserDto userDto) {
+        this.email = userDto.getEmail();
+        this.password = userDto.getPassword();
     }
 
-    public void setPassword(String encode) {
+    public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
+        return passwordEncoder.matches(password, this.password);
     }
+
 
     // Getters and setters
 }

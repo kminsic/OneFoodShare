@@ -1,7 +1,7 @@
 package com.itsme.onefoodshare.controller;
 
-import com.itsme.onefoodshare.dto.LoginRequestDto;
-import com.itsme.onefoodshare.dto.UserDto;
+import com.itsme.onefoodshare.dto.requestDto.LoginRequestDto;
+import com.itsme.onefoodshare.dto.requestDto.UserDto;
 import com.itsme.onefoodshare.service.RegisterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserDto userDto) {
-        registerService.signUp(userDto);
+        registerService.signup(userDto);
         return ResponseEntity.ok("회원가입에 성공했습니다");
     }
     @PostMapping("/login")

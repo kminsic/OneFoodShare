@@ -1,4 +1,4 @@
-package com.itsme.onefoodshare.dto;
+package com.itsme.onefoodshare.dto.requestDto;
 
 import lombok.*;
 
@@ -8,11 +8,13 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    private Long userId;
     private String username;
     private String password;
-    private String userEmail;
+    private String email;
     private String location;
 
 
+    public void setEncodePwd(String encodePwd) {
+        this.password = encodePwd;
+    }
 }
