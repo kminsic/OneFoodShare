@@ -12,7 +12,6 @@ import javax.persistence.Id;
 
 @Getter
 @Entity
-@NoArgsConstructor
 public class RefreshToken {
 
     @Id

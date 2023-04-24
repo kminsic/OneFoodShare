@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +29,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         userDetails.setAccount(user);
 
         return userDetails;
+    }
+
+    @Transactional(readOnly = true)
+    public User findByUser(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 사용자입니다."));
     }
 }
