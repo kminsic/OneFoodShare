@@ -14,11 +14,12 @@ build/
 .springBeans
 .sts4-cache
 bin/
+.application.yml
 !**/src/main/**/bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-*.yml
+.yml
 .idea
 *.iws
 *.iml
