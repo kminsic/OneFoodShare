@@ -34,19 +34,18 @@ public class RegisterService {
 
     @Transactional
     public GlobalResDto signup(UserDto userDto) {
-        // nickname 중복검사
+        // email 중복검사
         if(userRepository.findByEmail(userDto.getEmail()).isPresent()){
-            throw new RuntimeException("Overlap Check");
+            throw new RuntimeException("중복된 이메일입니다.");
         }
 
         // 패스워드 암호화
-        userDto.setEncodePwd(passwordEncoder.encode(userDto.getPassword()));
+
         User user = User.builder()
                 .email(userDto.getEmail())
                 .username(userDto.getUsername())
                 .password(passwordEncoder.encode(userDto.getPassword()))
                 .build();
-
         // 회원가입 성공
         userRepository.save(user);
         return new GlobalResDto("Success signup",HttpStatus.OK.value());
@@ -59,20 +58,16 @@ public class RegisterService {
         User user = userRepository.findByEmail(loginReqDto.getEmail()).orElseThrow(
                 () -> new RuntimeException("Not found Account")
         );
-        if(!user.validatePassword(passwordEncoder, loginReqDto.getPassword())){
-            return new GlobalResDto ("비밀번호가 일치하지 않습니다", HttpStatus.BAD_REQUEST.value());
-        }
         // 비밀번호 검사
-
+        if(!passwordEncoder.matches(loginReqDto.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Not matches Password");
+        }
 
         // 아이디 정보로 Token생성
         TokenDto tokenDto = jwtUtil.createAllToken(loginReqDto.getEmail());
-
         // Refresh토큰 있는지 확인
         Optional<RefreshToken> refreshToken = refreshTokenRepository.findByEmail(loginReqDto.getEmail());
 
-        // 있다면 새토큰 발급후 업데이트
-        // 없다면 새로 만들고 디비 저장
         if(refreshToken.isPresent()) {
             refreshTokenRepository.save(refreshToken.get().updateToken(tokenDto.getRefreshToken()));
         }else {
@@ -81,9 +76,10 @@ public class RegisterService {
         }
 
         // response 헤더에 Access Token / Refresh Token 넣음
-        setHeader(response, tokenDto);
+        setHeader(response,tokenDto);
 
         return new GlobalResDto("Success Login", HttpStatus.OK.value());
+
 
     }
 

@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +12,8 @@ import java.util.Collection;
 
 
 public class UserDetailsImpl implements UserDetails {
+
+
 
     private User user;
 
@@ -22,7 +23,10 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(Authority.ROLE_MEMBER.toString());
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(authority);
+        return authorities;
     }
 
     @Override
@@ -33,7 +37,10 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return user.getUsername();
+    }
+    public  String getEmail() {
+        return user.getEmail();
     }
 
     @Override
@@ -54,5 +61,12 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    public User getUser() {
+        return user;
+    }
+    public Long getId(){
+        return user.getId();
     }
 }

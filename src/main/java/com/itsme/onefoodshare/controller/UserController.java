@@ -2,7 +2,9 @@ package com.itsme.onefoodshare.controller;
 
 import com.itsme.onefoodshare.dto.requestDto.LoginRequestDto;
 import com.itsme.onefoodshare.dto.requestDto.UserDto;
+import com.itsme.onefoodshare.dto.responseDto.GlobalResDto;
 import com.itsme.onefoodshare.service.RegisterService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,12 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/auth")
+@AllArgsConstructor
 public class UserController {
     private final RegisterService registerService;
 
-    public UserController(RegisterService registerService) {
-        this.registerService = registerService;
-    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserDto userDto) {
@@ -26,9 +26,9 @@ public class UserController {
         return ResponseEntity.ok("회원가입에 성공했습니다");
     }
     @PostMapping("/login")
-    public ResponseEntity<?> logIn(@RequestBody LoginRequestDto logInfo, HttpServletResponse httpServletResponse) {
-        registerService.login(logInfo, httpServletResponse);
-        return ResponseEntity.ok("ok");
+    public GlobalResDto logIn(@RequestBody LoginRequestDto logInfo, HttpServletResponse httpServletResponse) {
+
+        return registerService.login(logInfo, httpServletResponse);
     }
 
 }

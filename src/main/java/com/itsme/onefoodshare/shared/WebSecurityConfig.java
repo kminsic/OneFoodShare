@@ -36,7 +36,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.cors();
-        http.csrf().disable();
+        http.csrf()
+                .disable();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
