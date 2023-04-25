@@ -37,28 +37,33 @@ public class CommentService {
     }
     //댓글 작성
     @Transactional
-    public GlobalResDto createComment(CommentRequestDto commentRequestDto, UserDetailsImpl userDetails){
-        User user = userDetailsServiceImpl.findByUser(userDetails.getUser().getId());
-        Optional<Post> post = postRepository.findById(commentRequestDto.getPostId());
-        if(post.isEmpty()){
-            return new GlobalResDto("해당 포스트가 존재하지않습니다.", HttpStatus.BAD_REQUEST.value());
-        }
-        Comment comment = Comment.builder()
-                .author(user)
-                .createdAt(LocalDateTime.parse(commentRequestDto.getCreateTime()))
-                .content(commentRequestDto.getContent())
-                .build();
-        commentRepository.save(comment);
-        return new GlobalResDto("작성에 성공했습니다.", HttpStatus.OK.value());
+    public GlobalResDto createComment(CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
+
+
+            User user = userDetailsServiceImpl.findByUser(userDetails.getId());
+            Post post = postRepository.findById(commentRequestDto.getPostId())
+                    .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 포스트입니다."));
+
+            Comment comment = Comment.builder()
+                    .author(user)
+                    .createdAt(LocalDateTime.now())
+                    .post(post)
+                    .content(commentRequestDto.getContent())
+                    .build();
+            commentRepository.save(comment);
+            return new GlobalResDto("작성에 성공했습니다.", HttpStatus.OK.value());
 
     }
     @Transactional
     public GlobalResDto deleteComment(Long id , UserDetailsImpl userDetails){
-        Optional<Comment> comment = commentRepository.findById(userDetails.getId());
-        if (!comment.get().getAuthor().equals(userDetails.getUser())){
+        Optional<Comment> comment = commentRepository.findById(id);
+        if (!comment.isPresent()) {
+            return new GlobalResDto("존재하지 않는 댓글입니다.", HttpStatus.BAD_REQUEST.value());
+        }
+        if (!comment.get().getAuthor().getId().equals(userDetails.getId())) {
             return new GlobalResDto("작성자만 삭제할 수 있습니다.", HttpStatus.BAD_REQUEST.value());
         }
-        commentRepository.delete(comment);
+        commentRepository.delete(comment.get());
         return new GlobalResDto("삭제 성공", HttpStatus.OK.value());
     }
 

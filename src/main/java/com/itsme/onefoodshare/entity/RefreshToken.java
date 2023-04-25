@@ -1,7 +1,7 @@
 package com.itsme.onefoodshare.entity;
 
 import com.sun.istack.NotNull;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +12,7 @@ import javax.persistence.Id;
 
 @Getter
 @Entity
+@NoArgsConstructor(force = true)
 public class RefreshToken {
 
     @Id

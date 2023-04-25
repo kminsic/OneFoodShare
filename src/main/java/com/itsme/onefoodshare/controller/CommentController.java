@@ -17,17 +17,18 @@ public class CommentController {
     private final CommentService commentService;
 
     //댓글 조회
-    @GetMapping("/api/comments/{id}")
+    @GetMapping("/comments/{id}")
     public ResponseEntity<?> searchpostComment(@PathVariable Long id){
         return commentService.searchpostComment(id);
     }
-    @PostMapping("comment")
+    // 댓글 생성
+    @PostMapping("/comment")
     public GlobalResDto createComment(@RequestBody CommentRequestDto commentRequestDto,
                                          @AuthenticationPrincipal UserDetailsImpl userDetails){
         return commentService.createComment(commentRequestDto, userDetails);
     }
     // 댓글 삭제
-    @RequestMapping(value = "/api/comment/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/comment/{id}")
     public GlobalResDto deleteComment(@PathVariable Long id,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.deleteComment(id, userDetails);

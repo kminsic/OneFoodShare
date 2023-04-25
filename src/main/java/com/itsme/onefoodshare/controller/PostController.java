@@ -21,13 +21,13 @@ public class PostController {
         return postService.createPost(postRequestDto, userDetailsImpl);
     }
 
-    @PostMapping("/updatepost")
+    @PatchMapping("/post/{id}")
     public GlobalResDto updatePost(@RequestBody PostRequestDto postRequestDto,
                                    @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
                                    @PathVariable Long id) {
         return postService.updatePost(id, postRequestDto,userDetailsImpl);
     }
-    @DeleteMapping("/deletepost")
+    @DeleteMapping("/post/{id}")
     public GlobalResDto deletePost(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
                                    @PathVariable Long id) {
         return postService.deletePost(id,userDetailsImpl);

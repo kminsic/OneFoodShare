@@ -59,7 +59,6 @@ public class Post {
         this.content = postRequestDto.getContent();
         this.authorNum = postRequestDto.getAuthorNum();
         this.location = postRequestDto.getLocation();
-        this.createdAt = LocalDateTime.parse(postRequestDto.getCreatedAt());
         this.postAmount = postRequestDto.getPostAmount();
         this.image = postRequestDto.getImage();
     }

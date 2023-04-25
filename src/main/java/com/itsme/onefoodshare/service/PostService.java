@@ -52,8 +52,13 @@ public class PostService {
     public GlobalResDto updatePost(Long id, PostRequestDto postDto, UserDetailsImpl userDetails){
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 포스트를 찾을 수 없습니다"));
-        if(!userDetails.getId().equals(post.getId()))
+        if(!userDetails.getId().equals(post.getAuthor().getId())) {
             return new GlobalResDto("올바른 사용자가 아닙니다", HttpStatus.BAD_REQUEST.value());
+        }
+        if (null == userDetails.getAuthorities()) {
+            return  new GlobalResDto("올바른 사용자가 아닙니다.",
+                    HttpStatus.BAD_REQUEST.value());
+        }
         post.update(postDto);
         return new GlobalResDto("게시물 수정에 성공했습니다.", HttpStatus.OK.value());
     }
