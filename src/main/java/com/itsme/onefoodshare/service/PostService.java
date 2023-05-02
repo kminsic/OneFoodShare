@@ -1,12 +1,15 @@
 package com.itsme.onefoodshare.service;
 
 
-import com.itsme.onefoodshare.Repository.PaymentRepository;
+
+import com.itsme.onefoodshare.Repository.JoinRequestRepository;
 import com.itsme.onefoodshare.Repository.PostRepository;
 import com.itsme.onefoodshare.dto.requestDto.PostRequestDto;
 import com.itsme.onefoodshare.dto.responseDto.GlobalResDto;
 import com.itsme.onefoodshare.dto.responseDto.PostResponseDto;
+import com.itsme.onefoodshare.entity.JoinRequest;
 import com.itsme.onefoodshare.entity.Post;
+import com.itsme.onefoodshare.entity.User;
 import com.itsme.onefoodshare.entity.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,15 +17,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
-    private final PaymentRepository paymentRepository;
+    private final JoinRequestRepository joinRequestRepository;
 
     //포스트 생성
     @Transactional
@@ -91,6 +96,31 @@ public class PostService {
                         .postAmount(post.getPostAmount())
                         .build());
 
+    }
+
+    public void createJoinRequest(Post post, User user) {
+        JoinRequest joinRequest = new JoinRequest();
+        joinRequest.setPost(post);
+        joinRequest.setUser(user);
+        joinRequest.setAccepted(false);
+        joinRequestRepository.save(joinRequest);
+    }
+
+    public List<JoinRequest> getJoinRequests(Long postId) {
+        return joinRequestRepository.findByPostId(postId);
+    }
+
+    public void acceptJoinRequest(Long requestId) {
+        JoinRequest joinRequest = joinRequestRepository.findById(requestId)
+                .orElseThrow(() -> new EntityNotFoundException("JoinRequest not found"));
+        joinRequest.setAccepted(true);
+        joinRequestRepository.save(joinRequest);
+    }
+
+    public void rejectJoinRequest(Long requestId) {
+        JoinRequest joinRequest = joinRequestRepository.findById(requestId)
+                .orElseThrow(() -> new EntityNotFoundException("JoinRequest not found"));
+        joinRequestRepository.delete(joinRequest);
     }
 
 

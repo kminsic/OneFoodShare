@@ -1,10 +1,7 @@
 package com.itsme.onefoodshare.entity;
 
 import com.itsme.onefoodshare.dto.requestDto.PostRequestDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +12,7 @@ import java.util.List;
 @Table
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
@@ -28,6 +26,9 @@ public class Post {
 
     @Column(nullable = false)
     private int authorNum;
+
+    @Column
+    private int joinAuthor;
 
     @Column(nullable = false)
     private String title;
@@ -58,6 +59,7 @@ public class Post {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
         this.authorNum = postRequestDto.getAuthorNum();
+        this.joinAuthor = postRequestDto.getJoinAuthor();
         this.location = postRequestDto.getLocation();
         this.postAmount = postRequestDto.getPostAmount();
         this.image = postRequestDto.getImage();

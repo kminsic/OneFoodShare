@@ -15,6 +15,7 @@ public class PostRequestDto {
     private String image;
     private String location;
     private String createdAt;
+    private int joinAuthor;
     private int postAmount;
 
 
