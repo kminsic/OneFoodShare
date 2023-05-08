@@ -1,15 +1,13 @@
 package com.itsme.onefoodshare.dto.requestDto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-class JoinRequestDto {
+@Builder
+public class JoinRequestDto {
     private Long postId;
     private Long userId;
 }

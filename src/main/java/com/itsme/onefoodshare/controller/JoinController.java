@@ -2,16 +2,16 @@ package com.itsme.onefoodshare.controller;
 
 
 import com.itsme.onefoodshare.entity.JoinRequest;
-import com.itsme.onefoodshare.entity.Post;
-import com.itsme.onefoodshare.entity.User;
+import com.itsme.onefoodshare.entity.UserDetailsImpl;
 import com.itsme.onefoodshare.service.JoinService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/join")
+@RequestMapping("api/auth/join")
 public class JoinController {
 
     private final JoinService joinService;
@@ -22,12 +22,9 @@ public class JoinController {
 
     @PostMapping("/create")
     public ResponseEntity<String> createJoinRequest(@RequestParam Long postId,
-                                                    @RequestParam Long userId) {
-        Post post = new Post();
-        post.setId(postId);
-        User user = new User();
-        user.setId(userId);
-        joinService.createJoinRequest(post, user);
+                                                    @AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
+
+        joinService.createJoinRequest(postId, userDetailsImpl);
         return ResponseEntity.ok("참가요청을 했습니다!");
     }
 

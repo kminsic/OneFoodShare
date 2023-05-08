@@ -18,8 +18,8 @@ public class CommentController {
 
     //댓글 조회
     @GetMapping("/comments/{id}")
-    public ResponseEntity<?> searchpostComment(@PathVariable Long id){
-        return commentService.searchpostComment(id);
+    public ResponseEntity<?> searchPostComment(@PathVariable Long id){
+        return commentService.searchPostComment(id);
     }
     // 댓글 생성
     @PostMapping("/comment")

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-class JoinRequestResponse {
+class JoinResponseDto {
     private Long id;
     private Long postId;
     private Long userId;

@@ -31,7 +31,7 @@ public class CommentService {
 
     //포스트 해당 코멘트 조회
     @Transactional
-    public ResponseEntity<?> searchpostComment(Long id) {
+    public ResponseEntity<?> searchPostComment(Long id) {
         Post post = findByPostId(id);
         return ResponseEntity.ok(findComment(post));
     }
@@ -57,7 +57,7 @@ public class CommentService {
     @Transactional
     public GlobalResDto deleteComment(Long id , UserDetailsImpl userDetails){
         Optional<Comment> comment = commentRepository.findById(id);
-        if (!comment.isPresent()) {
+        if (comment.isEmpty()) {
             return new GlobalResDto("존재하지 않는 댓글입니다.", HttpStatus.BAD_REQUEST.value());
         }
         if (!comment.get().getAuthor().getId().equals(userDetails.getId())) {

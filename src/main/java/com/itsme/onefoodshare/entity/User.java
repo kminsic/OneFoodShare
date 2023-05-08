@@ -37,9 +37,10 @@ public class User {
         this.password = userDto.getPassword();
     }
 
-    public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
-        return passwordEncoder.matches(password, this.password);
-    }
+//    public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
+//        return passwordEncoder.matches(password, this.password);
+//    }
+
 
 
     // Getters and setters
