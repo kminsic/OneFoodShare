@@ -32,5 +32,9 @@ public class PostController {
                                    @PathVariable Long id) {
         return postService.deletePost(id,userDetailsImpl);
     }
+    @GetMapping("/post/{id}")
+    public ResponseEntity<?> getPost(@PathVariable Long id) {
+        return postService.getDetailPost(id);
+    }
 
 }

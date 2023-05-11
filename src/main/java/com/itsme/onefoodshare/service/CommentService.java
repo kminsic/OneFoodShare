@@ -39,7 +39,6 @@ public class CommentService {
     @Transactional
     public GlobalResDto createComment(CommentRequestDto commentRequestDto, UserDetailsImpl userDetails) {
 
-
             User user = userDetailsServiceImpl.findByUser(userDetails.getId());
             Post post = postRepository.findById(commentRequestDto.getPostId())
                     .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 포스트입니다."));

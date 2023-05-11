@@ -80,7 +80,6 @@ public class RegisterService {
 
         return new GlobalResDto("Success Login", HttpStatus.OK.value());
 
-
     }
 
     private void setHeader(HttpServletResponse response, TokenDto tokenDto) {
