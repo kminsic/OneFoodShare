@@ -2,6 +2,8 @@ package com.itsme.onefoodshare.dto.requestDto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,7 +16,7 @@ public class PostRequestDto {
     private String content;
     private String image;
     private String location;
-    private String createdAt;
+    private LocalDateTime createdAt;
     private int joinAuthor;
     private int postAmount;
 

@@ -15,4 +15,7 @@ public class GlobalResDto {
         this.statusCode = statusCode;
     }
 
+    public int getStatus() {
+        return statusCode;
+    }
 }

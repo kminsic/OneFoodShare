@@ -29,6 +29,8 @@ public class UserDetailsImpl implements UserDetails {
         return authorities;
     }
 
+
+
     @Override
     public String getPassword() {
         return null;
@@ -73,4 +75,7 @@ public class UserDetailsImpl implements UserDetails {
         return user.getId();
     }
 
+    public User findByUser(Long id) {
+        return user;
+    }
 }

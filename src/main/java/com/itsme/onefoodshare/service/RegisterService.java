@@ -33,7 +33,7 @@ public class RegisterService {
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Transactional
-    public GlobalResDto signup(UserDto userDto) {
+    public GlobalResDto signUp(UserDto userDto) {
         // email 중복검사
         if(userRepository.findByEmail(userDto.getEmail()).isPresent()){
             throw new RuntimeException("중복된 이메일입니다.");

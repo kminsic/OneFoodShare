@@ -4,11 +4,13 @@ import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
 public class CommentRequestDto {
+
     @NotNull
     private Long postId;
     private String content;

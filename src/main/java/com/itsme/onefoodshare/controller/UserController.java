@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserDto userDto) {
-        registerService.signup(userDto);
+        registerService.signUp(userDto);
         return ResponseEntity.ok("회원가입에 성공했습니다");
     }
     @PostMapping("/login")

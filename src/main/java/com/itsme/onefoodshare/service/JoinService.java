@@ -31,14 +31,14 @@ public class JoinService {
 
     public void acceptJoinRequest(Long requestId) {
         JoinRequest joinRequest = joinRequestRepository.findById(requestId)
-                .orElseThrow(() -> new EntityNotFoundException("JoinRequest not found"));
+                .orElseThrow(() -> new EntityNotFoundException("참가 요청을 찾을 수 없습니다."));
         joinRequest.setAccepted(true);
         joinRequestRepository.save(joinRequest);
     }
 
     public void rejectJoinRequest(Long requestId) {
         JoinRequest joinRequest = joinRequestRepository.findById(requestId)
-                .orElseThrow(() -> new EntityNotFoundException("JoinRequest not found"));
+                .orElseThrow(() -> new EntityNotFoundException("참가 요청을 찾을 수 없습니다."));
         joinRequestRepository.delete(joinRequest);
     }
 }

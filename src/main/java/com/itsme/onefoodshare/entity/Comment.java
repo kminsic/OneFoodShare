@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,5 +34,4 @@ public class Comment {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    // Getters and setters
 }

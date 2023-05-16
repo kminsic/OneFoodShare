@@ -1,10 +1,13 @@
 package com.itsme.onefoodshare.service;
 
 
+import com.itsme.onefoodshare.Repository.CommentRepository;
 import com.itsme.onefoodshare.Repository.PostRepository;
 import com.itsme.onefoodshare.dto.requestDto.PostRequestDto;
+import com.itsme.onefoodshare.dto.responseDto.CommentResponseDto;
 import com.itsme.onefoodshare.dto.responseDto.GlobalResDto;
 import com.itsme.onefoodshare.dto.responseDto.PostResponseDto;
+import com.itsme.onefoodshare.entity.Comment;
 import com.itsme.onefoodshare.entity.Post;
 import com.itsme.onefoodshare.entity.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -21,6 +27,7 @@ import java.time.LocalDateTime;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     //포스트 생성
     @Transactional
@@ -75,20 +82,29 @@ public class PostService {
 
     //포스트 상세 보기
     @Transactional
-    public ResponseEntity<?> getDetailPost(Long id){
+    public ResponseEntity<PostResponseDto> getDetailPost(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 포스트를 찾을 수 없습니다"));
 
-        return ResponseEntity.ok(
-                PostResponseDto.builder()
-                        .id(post.getId())
-                        .image(post.getImage())
-                        .author(post.getAuthor().getUsername())
-                        .authorNum(post.getAuthorNum())
-                        .title(post.getTitle())
-                        .postAmount(post.getPostAmount())
-                        .build());
+        List<CommentResponseDto> commentResponseDtoList = post.getComments().stream()
+                .map(comment -> CommentResponseDto.builder()
+                        .id(comment.getId())
+                        .content(comment.getContent())
+                        // 다른 댓글 필드 설정
+                        .build())
+                .collect(Collectors.toList());
 
+        PostResponseDto responseDto = PostResponseDto.builder()
+                .id(post.getId())
+                .image(post.getImage())
+                .author(post.getAuthor().getUsername())
+                .authorNum(post.getAuthorNum())
+                .title(post.getTitle())
+                .postAmount(post.getPostAmount())
+                .commentResponseDtoList(commentResponseDtoList)
+                .build();
+
+        return ResponseEntity.ok(responseDto);
     }
 
 
